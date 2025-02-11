@@ -49,10 +49,10 @@ Include the namespace in your project:
 
 Use the StartEntrySpan method to create a new trace (root span) for an operation. This is typically used at the top level of an operation to mark the start of a trace.
 
-    using (var span = SpanHelper.StartEntrySpan(this, "ProcessOrder"))
+    using (var span = SpanHelper.StartEntry(this, "ProcessOrder"))
     {
         // Your operation code here...
-        span.Log("orderId", "12345");
+        span.SetLog("orderId", "12345");
         // Perform operations...
     }
 
@@ -60,20 +60,20 @@ Use the StartEntrySpan method to create a new trace (root span) for an operation
 
 When your operation includes several internal steps, use StartIntermediateSpan to create a span within the existing trace. This helps in tracking the progress of sub-operations.
 
-    using (var span = SpanHelper.StartIntermediateSpan(this, "ValidateOrder"))
+    using (var span = SpanHelper.StartIntermediate(this, "ValidateOrder"))
     {
         // Code to validate the order
-        span.Log("validationStatus", "passed");
+        span.SetLog("validationStatus", "passed");
     }
 
 #### Creating an Exit Span
 
 For operations that involve external calls (such as API requests), create an exit span using StartExitSpan. This differentiates external interactions from internal processing.
 
-    using (var span = SpanHelper.StartExitSpan(this, "SendOrderConfirmation"))
+    using (var span = SpanHelper.StartExit(this, "SendOrderConfirmation"))
     {
         // Call to external service, e.g., send an email or API request
-        span.Log("endpoint", "https://api.example.com/confirm");
+        span.SetLog("endpoint", "https://api.example.com/confirm");
         // External call code...
     }
 
